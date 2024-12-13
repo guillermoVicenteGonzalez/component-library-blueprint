@@ -1,4 +1,4 @@
-import { Button as r } from "./components/Button/Button.js";
+import { Button as r } from "./components/button/button.js";
 export {
   r as Button
 };

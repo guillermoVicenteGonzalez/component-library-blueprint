@@ -1,7 +1,16 @@
 import { jsx as t } from "react/jsx-runtime";
-import '../../assets/test.css';const n = "_container_1vktp_1", e = {
-  container: n
-}, o = ({}) => /* @__PURE__ */ t("div", { "data-testid": "test", className: e.container });
+import { Button as s } from "../button/button.js";
+import '../../assets/test.css';const o = "_container_1otms_1", e = "_test_1otms_3", n = {
+  container: o,
+  test: e
+}, c = () => /* @__PURE__ */ t("div", { "data-testid": "test", children: /* @__PURE__ */ t(
+  s,
+  {
+    variant: "default",
+    bgColor: "rgb(255,0,0)",
+    className: n.test
+  }
+) });
 export {
-  o as Test
+  c as Test
 };
