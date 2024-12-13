@@ -1,0 +1,22 @@
+/*CSS RESET*/
+:where(*) {
+	margin: 0;
+	padding: 0;
+}
+
+:where(*),
+:where(*::before),
+:where(*::after) {
+	box-sizing: inherit;
+}
+
+:where(html) {
+	box-sizing: border-box;
+	font-size: 62.5%;
+}
+
+:where(body) {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	line-height: 1.6;
+}

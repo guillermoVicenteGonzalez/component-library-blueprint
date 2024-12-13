@@ -2,7 +2,9 @@
 
 a component library test to see if it can be installed from a repository
 
-## Usage
+## Uso
+
+`npm install https://github.com/guillermoVicenteGonzalez/component-library-test`
 
 Compilar usando
 `npm run build`
