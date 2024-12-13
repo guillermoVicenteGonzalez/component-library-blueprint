@@ -1,22 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react'
 // import { expect } from '@storybook/jest'
 // import { within } from '@storybook/testing-library'
-import { Test } from './test'
+import { {{ pascalCase name }} } from './{{ kebabCase name }}'
 
-const meta: Meta<typeof Test> = {
-    title: 'Test',
-    component: Test,
+const meta: Meta<typeof {{ pascalCase name }}> = {
+    title: '{{ pascalCase name }}',
+    component: {{ pascalCase name }},
     argTypes: {},
 }
 
 export default meta
-type Story = StoryObj<typeof Test>
+type Story = StoryObj<typeof {{ pascalCase name }}>
 
 export const Default: Story = {
     args: {},
     // async play({ canvasElement }) {
     //     const canvas = within(canvasElement)
-    //     const container = canvas.getByTestId('test')
+    //     const container = canvas.getByTestId('{{ kebabCase name }}')
 
     //     void expect(container).toBeTruthy()
     // },

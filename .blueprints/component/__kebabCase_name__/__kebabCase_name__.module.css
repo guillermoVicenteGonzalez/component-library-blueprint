@@ -1,0 +1,13 @@
+:where(.{{camelCase name}}) {
+	--{{camelCase name}}-bg-color: white;
+    --{{camelCase name}}-width:100px;
+    --{{camelCase name}}-height:100px;
+
+	background-color: var(--{{camelCase name}}-bg-color);
+    width:var(--{{camelCase name}}-width);
+    height:var(--{{camelCase name}}-height)
+}
+
+:where(.{{camelCase name}}.default) {
+	--{{camelCase name}}-bg-color: red;
+}

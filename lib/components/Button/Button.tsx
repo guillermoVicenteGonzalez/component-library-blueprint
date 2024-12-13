@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import styles from "./button.module.scss";
 
 const buttonVariants = {
@@ -6,7 +6,7 @@ const buttonVariants = {
 	outlined: styles["outlined"],
 };
 
-export interface ButtonProps {
+export interface ButtonProps extends PropsWithChildren {
 	variant?: keyof typeof buttonVariants;
 	className?: string | undefined | CSSModuleClasses;
 	textColor?: string;
@@ -18,6 +18,7 @@ export const Button: React.FC<ButtonProps> = ({
 	className = "",
 	bgColor,
 	textColor,
+	children,
 }) => {
 	const colorVariables = {
 		"--button-bg-color": bgColor,
@@ -30,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
 			data-testid='button'
 			className={`${styles.button} ${buttonVariants[variant]} ${className}`}
 		>
-			Text
+			{children}
 		</button>
 	);
 };
