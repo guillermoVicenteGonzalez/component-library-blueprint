@@ -53,6 +53,20 @@ export default [
 		},
 	},
 
+	//custom rules that should not be changed
+	{
+		name: "custom compulsory rules",
+		rules: {
+			"@typescript-eslint/no-empty-object-type": [
+				"error",
+				{
+					allowInterfaces: "always",
+				},
+			],
+		},
+	},
+
+	//custom rules than can be changed
 	{
 		name: "custom rules",
 		rules: {
