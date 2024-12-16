@@ -20,8 +20,6 @@ export const Button: React.FC<ButtonProps> = ({
 	textColor,
 	children,
 }) => {
-	let unused;
-
 	const colorVariables = {
 		"--button-bg-color": bgColor,
 		"--button-text-color": textColor,
