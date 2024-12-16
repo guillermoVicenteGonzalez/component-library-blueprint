@@ -1,0 +1,13 @@
+:where(.complex) {
+	--complex-bg-color: white;
+	--complex-width: 100px;
+	--complex-height: 100px;
+
+	background-color: var(--complex-bg-color);
+	width: var(--complex-width);
+	height: var(--complex-height);
+}
+
+:where(.complex.default) {
+	--complex-bg-color: red;
+}
