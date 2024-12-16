@@ -1,9 +1,9 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 declare const buttonVariants: {
     default: string | undefined;
     outlined: string | undefined;
 };
-export interface ButtonProps {
+export interface ButtonProps extends PropsWithChildren {
     variant?: keyof typeof buttonVariants;
     className?: string | undefined | CSSModuleClasses;
     textColor?: string;

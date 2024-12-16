@@ -1,50 +1,99 @@
 # component-library-test
 
-a component library test to see if it can be installed from a repository
+Template para la creación de librerías de componentes utilizando vite
 
-- [uso](#uso)
-- [Arquitectura](#arquitectura)
-- [Troubleshooting](#troubleshooting)
+- [uso](#uso-e-instalación) - métodos de instalación de la librería.
+- [Desarrollo](#desarrollo) - Metodología de desarrollo y compilación de la librería.
+- [Troubleshooting](#troubleshooting) - Errores comunes y como solucionarlos
 
-## Uso
+## Uso e instalación
+
+El modo de empleo mas sencillo consistiria en ejecutar `npm publish` y subir la librería de manera pública a <mark>npm</mark>. De esta forma se puede instalar con un simple `npm install librería` y cada sucesivo `npm install` descargará la versión mas reciente de la librería (en caso de haberla)
+
+El no tener subida la librería a npm dificulta su instalación en otros proyectos, ya que se ha de tener permisos sobre el repositorio o tener la librería descargada localmente. No obstante no es imposible. Existen varias maneras alternativas de hacerlo.
+
+### Github con cli auth
 
 Si tenemos github cli configurado
+
 `npm install https://github.com/guillermoVicenteGonzalez/component-library-test`
 
-## Creación de componentes
+### Github sin estar autenticado con el cli
 
-Para utilizar un estilo de codigo consistente y promover el uso de buenas prácticas se han definido 2 esquemas de componentes.
+Según las circunstancias existen 3 métodos.
+
+- `git+https://github.com/visionmedia/express.git`
+- Si se require clave ssh: `git+ssh://git@github.com/visionmedia/express.git`
+- Si es un repositorio GH Enterprise: `git+https://<github enterprise url>/<org>/<repo>.git#<branch>`
+
+### Descargar la librería compilada
+
+La ultima opcion sería descargar la librería desde el repositorio y almacenarla en el propio proyecto.
+
+Idealmente, solo se descargaría lo estrictamente necesario, es decir, la librería compilada (/dist) y los ficheros necesarios para que npm funcione (package.json etc).
+
+En el mejor de los escenarios existiría un flujo de subidas automatizado, tal que un push a main supusiera la compilación de la librería y su compresion, incluyendo solo los ficheros necesarios. El resultado sería un fichero .tar facilmente localizable en el repositorio. Solo con descargarlo, incluirlo en un directorio del proyecto en el que se quiere utilizar y hacer `npm install librería.tar` tendríamos nuestra librería lista.
+
+## Desarrollo
+
+### Compilación de la librería.
+
+Es necesario compilar la librería cada vez que se tenga una version estable. Ya que es la unica manera de hacer efectivos los cambios de modo que al hacer `npm install librería` instalemos la versión mas reciente. Esto también implica subir el numero de versión en el package.json
+
+Para compilar (transpilar) la librería se utiliza el comando `npm run build`, que generará la librería en el directorio `/dist`
+
+<mark>IMPORTANTE:</mark> Para que un componente sea accesible desde la librería, hay que exportarlo desde el fichero `/lib/main.ts`
+
+### Creación de componentes
+
+Para utilizar un estilo de código consistente y promover el uso de buenas prácticas se han definido 2 esquemas de componentes.
 Estos esquemas pueden ser utilizados por la extension de VSCode `teamchilla blueprints`, que generará componentes listos para ser utilizados.
 
 Para utilizar esta funcionalidad es necesario haber instalado la extensión previamente. Una vez hecho esto al hacer click derecho sobre una carpeta aparecerá la opción <mark>New file from template</mark>
 
 Los esquemas o blueprints son los siguientes:
 
-- `component` - Genera un componente complejo con la estructura que el creador de la libreria considera mejor. Su justificación se encuentra en la sección [estilo de componentes](#estructura-de-componentes)
+- `component` - Genera un componente complejo con la estructura que el creador de la librería considera mejor. Su justificación se encuentra en la sección [estilo de componentes](#estructura-de-componentes-propuesta)
 
 - `flatComponent` - Genera un componente básico y exporta tanto el componente como sus tipos. Está pensado para gente experimentada o que no quiere seguir la estructura predefinida
 
-## Arquitectura
+### Arquitectura y estructura
 
-### Css modules
+#### Css modules
 
-## Ecosistema y flujo de desarrollo.
+Los componentes utilizarán css modules para evitar la colision de clases de css. Las buenas prácticas en cuanto a css y gestion de variantes de componentes se especifican en: [estilo de componentes](#estructura-de-componentes-propuesta)
 
-## Compilación
+#### Eslint
 
-Para que se puedan usar los cambios, es necesario compilar la libreria y subirla al repositorio.
+Se ha preparado eslint para ser muy estricto y de esta manera asegurar un estilo de código consistente, limpio y que sigue buenas prácticas.
 
-Hay que exportar todos los componentes al fichero /lib/main.ts para que la libreria los exponga al ser compilada.
+No obstante, ya que es posible que haya que migrar componentes ya existentes que llegan de otas fuentes y que no complen lo propuesto, se ha comentaod aquellas reglas más estrictas, dejando unicamente las recomendadas por eslint y los plugins usados.
 
-Compilar usando
-`npm run build`
-Este paso genera la libreria de componentes compilada en el directorio `dist`
+#### Husky
 
-## Estructura de componentes
+También se ha configurado husky para que antes de hacer un commit ejecute eslint y prettier para asegurar que el nuevo código se ajusta al estilo especificado para la librería. Si no es el caso, el commit fallará.
+
+Del mismo modo Husky comprobará el formato del mensaje del commit, que se ha de ajustar a lo propuesto por conventional commits para poder continuar. Esto
+
+#### Storybook
+
+Se ha preparado storybook para hacer mas sencillo el desarrollo de los componentes. Se lanza mediante `npm run story`
+
+Del mismo modo, si se decide utilizar las blueprints preparadas para el proyecto, al crear un nuevo componente se generará automaticamente su historia relacionada, por lo que nada mas ser creado podremos verlo en storybook.
+
+#### Vite
+
+Vite es el elemento clave del repositorio, ya que es quien se encarga de la compilación de la librería. Su fichero de configuración es vite.config.ts y sus aspectos más importantes son:
+
+- exclusion de ficheros stories para no compilar nada relacionado con storybook
+- `plugin libInjectCss` - inyecta el fichero css correspondiente a cada componente en la versión compilada del componente
+- `/lib` configurado como punto de entrada para la compilación de la librería.
+
+### Estructura de componentes propuesta
 
 Se utilizará un componente "Button" ficticio para explicar la estructura que se recomienda que sigan los componentes. No es necesario seguir al pie de la letra estas directrices pero si se recomienda que los componentes sean implementados siguiendo una filosofía similar.
 
-Un componente de una libreria ha de ser lo más agnostico posible y ha de proveer cuantas mas opciones de personalización sea posible <mark>sin saturar el componente</mark> y siguiendo siempre un modelo de caja negra
+Un componente de una librería ha de ser lo más agnostico posible y ha de proveer cuantas mas opciones de personalización sea posible <mark>sin saturar el componente</mark> y siguiendo siempre un modelo de caja negra
 
 Teniendo esto en cuenta. Un componente por defecto contará con una prop `variant` para definir una serie de variaciones de estilo, una prop `className` para poder personalizar el componente desde fuera y extenderá de `PropsWithChildren` para poder incrustar hijos al componente
 
@@ -90,17 +139,16 @@ export const Button: React.FC<ButtonProps> = ({
 
 ### Gestión de variantes
 
-La implementación de variantes depende mucho de la arquitectura de los estilos. Lo que se plantea en este caso es usar un objeto cuyas claves sean los nombres de las variantes, y sus valores sean las clases que se corresponden con esa variante <mark>Pasadas por [css modules](#css-modules)</mark>
+La implementación de variantes depende mucho de la arquitectura de los estilos. Lo que se plantea en este caso es usar un objeto cuyas claves sean los nombres de las variantes, y sus valores sean las clases que se corresponden con esa variante <mark>Pasadas por [css modules](#css-modules)</mark> Para asi evitar que distintas clases colisionen.
 
 ## Troubleshooting
 
 ## To do
 
-- [ ] Blueprints
+- [x] Blueprints
 - [x] Flat
 - [x] Default component
 - [ ] BEM component
-- [ ] Modulos
 - [x] Eslint (revisar css modules)
 - [ ] Husky + conventional
 - [ ] tsconfig
