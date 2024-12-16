@@ -89,7 +89,15 @@ Vite es el elemento clave del repositorio, ya que es quien se encarga de la comp
 - `plugin libInjectCss` - inyecta el fichero css correspondiente a cada componente en la versión compilada del componente
 - `/lib` configurado como punto de entrada para la compilación de la librería.
 
+#### SCSS
+
+Aunque es completamente opcional, se ha incluido la posibilidad de utilizar el preprocesador scss. Se ha escogido ya que al contrario que tailwind o bootsrap no es una dependencia fuerte, ya que no añade css codigo como tal, y compilarlo genera codigo css plano.
+
+Adicionalmente considero que css es un apartado que frecuentemente se deja de lado y depender de tailwind (aunque al final sea lo mismo) puede ocasionar que juniors que participen en un proyecto no aprendan css correctamente.
+
 ### Estructura de componentes propuesta
+
+En este apartado se explica la estructura de componente propuesta. No es obligatorio seguirla ni mucho menos, pero creo que es un buen punto de entrada y puede ayudar a aquellas personas con menos experiencia. Para seguir esta estructura se puede generar un componente mediante el blueprint "component" utilizando la opcion de "teamchilla blueprints" <mark>new file from blueprint</mark>
 
 Se utilizará un componente "Button" ficticio para explicar la estructura que se recomienda que sigan los componentes. No es necesario seguir al pie de la letra estas directrices pero si se recomienda que los componentes sean implementados siguiendo una filosofía similar.
 
@@ -137,7 +145,51 @@ export const Button: React.FC<ButtonProps> = ({
 };
 ```
 
-### Gestión de variantes
+#### Css
+
+El fichero de estilos correspondiente es el siguiente. Del mismo modo, la estructura del mismo es generada por el blueprint "component"
+
+```scss
+:where(.button) {
+	--button-width: 100px;
+	--button-height: 50px;
+	--button-bg-color: red;
+	--button-text-color: white;
+
+	width: var(--button-width);
+	height: var(--button-height);
+	background-color: var(--button-bg-color);
+	color: var(--button-text-color);
+
+	border-radius: 1rem;
+	cursor: pointer;
+
+	transition: all 0.2s;
+
+	&:hover {
+		transform: scale(1.01);
+	}
+}
+
+//variants
+:where(.button.default) {
+	--button-bg-color: yellow;
+}
+
+:where(.button.outlined) {
+	background-color: transparent;
+	border: solid 1px var(--button-bg-color);
+	color: var(--button-bg-color);
+}
+```
+
+Se incentiva de gran manera el uso de where para proporcionar unos estilos por defecto para el componente pero que tengan una especificidad 0. De esta manera, es facil añadir css en situaciones mas especificas que sobreescriba el comportamiento por defecto del componente.
+
+En cuanto a la gestion de variantes, al usar css modules podemos simplemente crear clases que se llamen como la variante, como por ejemplo `.outlined` ya que no colisionará con ninguna otra clase con ese nombre <mark>Que se encuentre en otro modulo</mark>
+
+También se recomienda el uso de variables tal y como se hace en el ejemplo. Si se mira de manera aislada esto puede parecer redundante, pero permite que creemos variantes como `bg-color` por ejemplo, que se valen de sobreescribir las variables css para obtener el resultado deseado. De esta forma podríamos definir en el css los estilos especificados en el sistema de diseño, pero valernos de este tipo de props para (en casos extraordinarios) cambiar ese diseño <mark>Sin necesidad de crear clases nuevas</mark>
+
+#### Gestión de variantes
 
 La implementación de variantes depende mucho de la arquitectura de los estilos. Lo que se plantea en este caso es usar un objeto cuyas claves sean los nombres de las variantes, y sus valores sean las clases que se corresponden con esa variante <mark>Pasadas por [css modules](#css-modules)</mark> Para asi evitar que distintas clases colisionen.
 
