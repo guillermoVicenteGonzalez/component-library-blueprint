@@ -130,3 +130,7 @@ out
 .pnp.*
 
 *storybook.log
+
+
+# Personal gitignore
+.vscode
