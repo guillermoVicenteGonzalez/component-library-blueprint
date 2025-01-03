@@ -133,4 +133,7 @@ out
 
 
 # Personal gitignore
-.vscode
+.vscode/*
+dist
+dist/*
+dist/
