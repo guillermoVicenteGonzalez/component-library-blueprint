@@ -24,6 +24,12 @@ export default defineConfig({
 			],
 		}),
 	],
+	resolve: {
+		alias: {
+			"@": resolve(__dirname, "./lib/"),
+			"@components": resolve(__dirname, "./lib/components/"),
+		},
+	},
 	build: {
 		emptyOutDir: false,
 		lib: {
