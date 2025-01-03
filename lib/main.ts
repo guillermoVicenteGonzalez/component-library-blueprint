@@ -1,2 +1,2 @@
 import "./main.css";
-export { Button } from "./components/button/Button";
+export { Button } from "./components/button/button";

@@ -1,10 +1,10 @@
-import { Button } from "../";
+import { Button } from "@components/button/button";
 import "./App.css";
 
 function App() {
 	return (
 		<>
-			<Button></Button>
+			<Button>hola</Button>
 		</>
 	);
 }
